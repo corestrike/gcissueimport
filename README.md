@@ -11,12 +11,14 @@ This is importing tool issues to GitHub ITS from GoogleCode.
 
 
 ## Settings
-Register from [Account Settings] > [Applications] > [Developer Application]  
-> Name: < Your Apps Name >  
-> URL: < Your Apps URL >  
-> CallbackURL: < Your Apps URL >/auth/github/callback
+Register from [Account Settings] > [Applications] > [Developer Application]
 
-Set a Client ID and Client Secret app.js
+Name: < Your Apps Name >
+URL: < Your Apps URL >
+CallbackURL: < Your Apps URL >/auth/github/callback
+
+Set a Client ID and Client Secret to app.js
+
     /* oauth setting */
     var clientId = < Client ID >;
     var secret = < Client Secret >;
