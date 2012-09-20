@@ -5,7 +5,14 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+  	<h1><%= message %></h1>
+  	<table>
+  		<form method="POST" action="/importlabel">
+  			<tr><td>GitHub User/Org:</td><td><input type="text" name="user"></td></tr>
+  			<tr><td>GitHub Repository:</td><td><input type="text" name="repo"></td></tr>
+        <tr><td>GoogleCode Project Name:</td><td><input type="text" name="project"></td></tr>
+  			<tr><td></td><td><input type="submit" name="submit" value="Send"></td></tr>
+  		</form>
+  	</table>
   </body>
 </html>

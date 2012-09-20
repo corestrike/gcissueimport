@@ -5,12 +5,21 @@ var express = require('express')
   , path = require('path')
   , GitHubApi = require('github')
   , passport = require('passport')
-  , GitHubStrategy = require('passport-github').Strategy;
+  , GitHubStrategy = require('passport-github').Strategy
+  , request = require('request')
+  , jsdom = require('jsdom');
+
 
 /* oauth setting */
-var clientId = < Client ID >;
-var secret = < Client Secret >;
+  var clientId = < Client ID >;
+  var secret = < Client Secret >;
 
+/* node-github */
+var github = new GitHubApi({
+  version: "3.0.0"
+});
+
+/* passport */
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
@@ -22,11 +31,17 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new GitHubStrategy({
     clientID: clientId,
     clientSecret: secret,
-    callbackURL: "http://localhost:3000/auth/github/callback"
+    callbackURL: "http://localhost:3000/auth/github/callback",
+    scope: ["repo","gist"]
   },
   function(accessToken, refreshToken, profile, done) {
-    process.nextTick(function () {   
-       return done(null, accessToken);
+    process.nextTick(function () {
+      github.authenticate({
+          type: "oauth",
+          token: accessToken
+      });
+
+      return done(null, profile);
     });
   }
 ));
@@ -43,22 +58,14 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(express.cookieParser('your secret here'));
   app.use(express.session({ secret: 'keyboard cat' }));
-  // Initialize Passport! Also use passport.session() middleware, to support
-  // persistent login sessions (recommended).
   app.use(passport.initialize());
   app.use(passport.session());
-//  app.use(express.session());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
 app.configure('development', function(){
   app.use(express.errorHandler());
-});
-
-/* node-github */
-var github = new GitHubApi({
-  version: "3.0.0"
 });
 
 // Filter
@@ -70,11 +77,14 @@ var login_check = function(req, res, next){
     next();
 }
 
-var config = {github: github};
+
+var config = {github: github, requestLib: request, jsdom: jsdom};
 routes = routes(config);
 app.get('/', login_check, routes.index);
 app.get('/auth/github', passport.authenticate('github'), routes.auth);
 app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/auth/github' }), routes.callback);
+app.get('/importissue', routes.importIssue);
+app.post('/importlabel', routes.importLabel);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

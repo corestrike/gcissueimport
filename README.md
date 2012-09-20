@@ -5,12 +5,16 @@ This is importing tool issues to GitHub ITS from GoogleCode.
 ## Environment
 * node.js @0.9.2
 * express @3.0.0rc4
-* passport @0.1.3 (<https://github.com/jaredhanson/passport>)
-* passport-github @0.1.12 (<https://github.com/jaredhanson/passport-github>)
-* node-github @0.1.5 (<https://github.com/ajaxorg/node-github>)
+* ejs @0.8.3
+* jsdom @0.2.15
+* passport @0.1.3
+* passport-github @0.1.12
+* node-github @0.1.5
 
 
 ## Settings
+Export issues from GoogleCode.
+
 Register from [Account Settings] > [Applications] > [Developer Application]
 
     Name: < Your Apps Name >
@@ -24,5 +28,7 @@ Set a Client ID and Client Secret to app.js
     var secret = < Client Secret >;
 
 
-## Relation
-ふが
+## Customize
+
+    app.js (for config)
+    routes/index.js (for logic)
