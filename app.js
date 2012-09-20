@@ -11,8 +11,9 @@ var express = require('express')
 
 
 /* oauth setting */
-  var clientId = < Client ID >;
-  var secret = < Client Secret >;
+var clientId = < Client ID >;
+var secret = < Client Secret >;
+
 
 /* node-github */
 var github = new GitHubApi({

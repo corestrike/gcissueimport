@@ -32,3 +32,7 @@ Set a Client ID and Client Secret to app.js
 
     app.js (for config)
     routes/index.js (for logic)
+
+
+## Attention
+When "milestone" is set to the label of GoogleCode, it imports as Milestone to GitHub. 
