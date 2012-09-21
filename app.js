@@ -7,13 +7,14 @@ var express = require('express')
   , passport = require('passport')
   , GitHubStrategy = require('passport-github').Strategy
   , request = require('request')
-  , jsdom = require('jsdom');
+  , jsdom = require('jsdom')
+  , fs = require('fs')
+  , file = require('./file');
 
 
 /* oauth setting */
 var clientId = < Client ID >;
 var secret = < Client Secret >;
-
 
 /* node-github */
 var github = new GitHubApi({
@@ -69,6 +70,14 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+var dot = '';
+var accountMap = {};
+fs.readFileSync('authors.txt', 'utf-8').toString().split('\n').forEach(function (line) {
+  var a = line.split('=');
+  accountMap[a[0].replace(/(^\s+)|(\s+$)/g, "")] = a[1].replace(/(^\s+)|(\s+$)/g, "");
+});
+
+
 // Filter
 var login_check = function(req, res, next){
     if(!req.session.passport.user){
@@ -79,7 +88,7 @@ var login_check = function(req, res, next){
 }
 
 
-var config = {github: github, requestLib: request, jsdom: jsdom};
+var config = {github: github, requestLib: request, jsdom: jsdom, accountMap: accountMap};
 routes = routes(config);
 app.get('/', login_check, routes.index);
 app.get('/auth/github', passport.authenticate('github'), routes.auth);

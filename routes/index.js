@@ -82,6 +82,7 @@ module.exports = function(config){
 		importIssue: function(req, res) {
    			var document = jsdom.jsdom();
    			var window = document.createWindow();
+   			var accountMap = config.accountMap;
    			jsdom.jQueryify(window, jquery_js, function (window, jQuery) {
        			jQuery.each(entryList, function(i, val){
        				var labelArr = new Array();
@@ -96,7 +97,7 @@ module.exports = function(config){
 	       					labelArr.push(jQuery(this).html());
              			}
    					});
-
+   					var account = accountMap[jQuery(val).find("author").find("name").html()];
    					if(milestone != -1){
    						parameter = 
    							{
@@ -104,6 +105,7 @@ module.exports = function(config){
 								repo: req.session.githubrepo,
 								title: jQuery(val).find("title").html(),
 								body: jQuery(val).find("content").html(),
+								assignee: account,
 								milestone: milestone,
 								labels: labelArr
    							};
@@ -114,11 +116,11 @@ module.exports = function(config){
 								repo: req.session.githubrepo,
 								title: jQuery(val).find("title").html(),
 								body: jQuery(val).find("content").html(),
+								assignee: account,
 								labels: labelArr
    							};
    					}
 
-					console.log(parameter);
 					var j = 0;
    					github.issues.create(parameter, function(err, response){
 						j++;

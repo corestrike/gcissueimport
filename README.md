@@ -27,6 +27,16 @@ Set a Client ID and Client Secret to app.js
     var clientId = < Client ID >;
     var secret = < Client Secret >;
 
+Create a "authors.txt" file.  
+It is from issue's Owner at GoogleCode to issue's assigner at GitHub.  
+
+    (no author) = hoge
+    <GoogleCode name> = GitHub Name
+
+Caution:  
+The name acquired from GoogleCode is special.  
+For example, if 'sample@sample.com' becomes, it will be sent as 'sam...@sample.com'. 
+
 
 ## Customize
 
