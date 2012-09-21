@@ -31,7 +31,7 @@ Create a "authors.txt" file.
 It is from issue's Owner at GoogleCode to issue's assigner at GitHub.  
 
     (no author) = hoge
-    <GoogleCode name> = GitHub Name
+    < GoogleCode name > = < GitHub Name >
 
 Caution:  
 The name acquired from GoogleCode is special.  
